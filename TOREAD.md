@@ -78,5 +78,5 @@ hive, avro/orc, beeline, elasticsearch, kibana, zeppelin, oozie, hue, ambari
 https://use-the-index-luke.com/sql/anatomy/slow-indexes
 https://www.essentialsql.com/what-are-the-major-parts-of-a-database/
 
-
+https://news.ycombinator.com/item?id=19900955
 
