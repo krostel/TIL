@@ -20,3 +20,16 @@ sqc = SQLContext.getOrCreate(sc)
 # More info here (don't look at the specific versions of the libraries, they are outdated already):
 
 # https://sparkour.urizone.net/recipes/using-s3/
+@contextmanager
+def cached(rdd):
+    """used with a 'with" will make sure that rdds are unpersisted when done
+    Args:
+        rdd: to cache
+
+    Returns:
+        rdd
+
+    """
+    rdd.cache()
+    yield rdd
+    rdd.unpersist()
