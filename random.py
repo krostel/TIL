@@ -33,3 +33,48 @@ def cached(rdd):
     rdd.cache()
     yield rdd
     rdd.unpersist()
+def print_skew(rdd):
+    """Prints out the index and the number of elements in the largest and smallest partitions of an RDD
+
+    Args:
+        rdd (RDD):
+    """
+    skew = rdd.mapPartitionsWithIndex(lambda ind, x: (ind, itertoolz.count(x))).collect()
+    by_size = sorted(skew, key=operator.itemgetter(1))
+    print("Largest partition (index, size)")
+    print(by_size[-1])
+    print("Smallest partition (index, size)")
+    print(by_size[0])
+def is_date_in_cron_schedule(schedule, date):
+    """Returns a bool as to whether the crontab schedule for a step matches the provided date.
+
+    croniter expects full crontab like schedules:
+        * * 2 1 2 => minute hour day(month) month day(week)
+    Steps in our pipeline do not need to run > 1 a day, so the minute and hour values will always be ignored but are expected
+    Schedules that are None are automatically considered valid as we assume that something without a schedule should
+    be run all of the time.
+
+    Args:
+        schedule (str): Job config from pipeline_config.yaml
+        date (datetime.date):
+    Returns:
+        bool
+    """
+    # import is here because it can cause issue with PySpark
+    from croniter import croniter
+
+    datetime_ = datetime.datetime.combine(date, datetime.datetime.min.time())
+
+    if schedule is not None:
+        try:
+            seconds_to_next_run = croniter(schedule, datetime_).get_next()
+
+            next_valid_run_date = datetime.datetime.fromtimestamp(seconds_to_next_run)
+            if next_valid_run_date.date() == date:
+                return True
+            else:
+                return False
+        except:
+            ValueError("Could not parse schedule {}".format(schedule))
+    else:
+        return True
