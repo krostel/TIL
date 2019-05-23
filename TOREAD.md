@@ -80,3 +80,4 @@ https://www.essentialsql.com/what-are-the-major-parts-of-a-database/
 
 https://news.ycombinator.com/item?id=19900955
 
+https://in4maniac.wordpress.com/2016/10/09/spark-tutorial/
