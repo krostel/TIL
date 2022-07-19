@@ -48,19 +48,19 @@ How to access Spark UI of the EMR cluster:
 
 Bulk rename files s3
 
-aws s3 cp s3://data.api.compressed/events/page_impressions/year=2018/month=09/day=24/ s3://audience-data-store-qa/joana/tests/out-`date +%Y%M%d%H%m%S`.gz --recursive --exclude "*" --include "*windowed*" --dryrun
+aws s3 cp s3://bucket/events/stuff/year=2018/month=09/day=24/ s3://bucket/joana/tests/out-`date +%Y%M%d%H%m%S`.gz --recursive --exclude "*" --include "*windowed*" --dryrun
 
 
-for f in $(aws s3api list-objects --bucket data.api.compressed --prefix=events/link_impressions/year=2018/month=09/day=24 --output text  | grep windowed | cut  -f 3);
- do aws s3 mv s3://data.api.compressed/$f s3://data.api.compressed/out-`date +%Y%M%d%H%m%S`.gz --dryrun
+for f in $(aws s3api list-objects --bucket data.api.compressed --prefix=events/stuff/year=2018/month=09/day=24 --output text  | grep windowed | cut  -f 3);
+ do aws s3 mv s3://bucket/$f s3://bucket/out-`date +%Y%M%d%H%m%S`.gz --dryrun
 done
 
 
-aws s3api list-objects --bucket data.api.compressed --prefix=events/link_impressions/year=2018/month=09/day=24 --output text  | grep windowed | cut  -f 3
+aws s3api list-objects --bucket data.api.compressed --prefix=events/stuff/year=2018/month=09/day=24 --output text  | grep windowed | cut  -f 3
 
 
-for f in $(aws s3api list-objects --bucket data.api.compressed --prefix=events/link_impressions/year=2018/month=09/day=24 --output text  | grep windowed | cut  -f 3);
- do aws s3 mv s3://data.api.compressed/$f s3://data.api.compressed/${f//:/_}
+for f in $(aws s3api list-objects --bucket my.bucket --prefix=events/stuff/year=2018/month=09/day=24 --output text  | grep windowed | cut  -f 3);
+ do aws s3 mv s3://my.bucket/$f s3://my.bucket/${f//:/_}
 done
 
 
