@@ -1,0 +1,8 @@
+
+.DS_Store
+terraform-lambda/venv/
+lambda.zip
+__pycache__/
+terraform-lambda/.DS_Store
+terraform-lambda/.terraform.lock.hcl
+terraform-lambda/.terraform/
